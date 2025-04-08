@@ -2,25 +2,31 @@ CC = gcc
 
 CFLAGS = -Wall -g
 
-LDFLAGS = -lsqlite3
+LDFLAGS = -lsqlite3 -pthread
 
-TARGET = server 
+SERVER_TARGET = server 
+CLIENT_TARGET = client 
 
 SRC_DIR = ../src
 
-SOURCES = $(SRC_DIR)/server.c
+SERVER_SOURCE = $(SRC_DIR)/server.c
+CLIENT_SOURCE = $(SRC_DIR)/client.c
 
-OBJECTS = $(notdir $(SOURCES:.c=.o))
+SERVER_OBJECT = $(notdir $(SERVER_SOURCE:.c=.o))
+CLIENT_OBJECT = $(notdir $(CLIENT_SOURCE:.c=.o))
 
-all: $(TARGET)
+all: $(SERVER_TARGET) $(CLIENT_TARGET)
 
-$(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
+$(SERVER_TARGET): $(SERVER_OBJECT)
+	$(CC) $(SERVER_OBJECT) -o $(SERVER_TARGET) $(LDFLAGS)
+
+$(CLIENT_TARGET): $(CLIENT_OBJECT)
+	$(CC) $(CLIENT_OBJECT) -o $(CLIENT_TARGET) 
 
 %.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(SERVER_OBJECTS) $(CLIENT_OBJECTS) $(SERVER_TARGET) $(CLIENT_TARGET)
 
 .PHONY: all clean
