@@ -21,10 +21,9 @@ Requisitos:
 
 ```bash
 git clone git@github.com:tutuzeraa/Projeto1-MC833.git
+// é necessário mudar em ./src/client.c o SERVER_ADDR para o IP da rede do servidor
 cd Projeto1-MC833/build
 make 
 ./server
 ./client
 ```
-
-## Relatório
