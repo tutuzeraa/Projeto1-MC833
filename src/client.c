@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #define SERVER_PORT "6666" 
-#define SERVER_ADDR "2804:1b3:a701:5e11:b025:5a85:c0b5:7355" 
+#define SERVER_ADDR "2804:1b3:a701:5e11:b025:5a85:c0b5:7355" // must hardcode IP address
 #define BUF_SIZE 1024 
 #define MAX_ARGS 10
 
@@ -100,12 +100,21 @@ int main() {
     struct addrinfo hints, *res;
     int sockfd;
     int status;
+    char hostname[256];
+
+    status = gethostname(hostname, sizeof hostname);
+    if (status != 0){
+        fprintf(stderr, "gethostname error\n");
+        return 1;
+    }
+
+    printf("Hostname is %s\n", hostname);
 
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;     
     hints.ai_socktype = SOCK_STREAM; 
 
-    status = getaddrinfo(SERVER_ADDR, SERVER_PORT, &hints, &res);
+    status = getaddrinfo(hostname, SERVER_PORT, &hints, &res);
     if (status != 0) {
         fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
         return 1;
