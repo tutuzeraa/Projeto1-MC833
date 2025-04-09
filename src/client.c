@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #define SERVER_PORT "6666" 
-#define SERVER_ADDR "localhost" 
+#define SERVER_ADDR "2804:1b3:a701:5e11:b025:5a85:c0b5:7355" 
 #define BUF_SIZE 1024 
 #define MAX_ARGS 10
 
@@ -42,11 +42,6 @@ int split_args(char *input, char **args, int max_args) {
 
     return argc;
 }
-
-/*
- * read_response reads data from sockfd into resp until the termination marker ("END_OF_RESPONSE\n")
- * is found. It uses a static leftover buffer to store any extra data beyond the marker.
- */
 
 // helper function to read the data from sockfd into resp until receiving END_OF_RESPONSE
 int read_response(int sockfd, char *resp, int resp_size) {
